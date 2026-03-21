@@ -100,15 +100,21 @@ const words = [
     speechSynthesis.speak(utterance);
   }
 
-  function newWord() {
-    let randomIndex = Math.floor(Math.random() * words.length);
-    currentWord = words[randomIndex];
+function newWord() {
+  let randomIndex = Math.floor(Math.random() * words.length);
+  currentWord = words[randomIndex];
 
-    // small delay makes it more reliable
-    setTimeout(() => {
-      speakWord();
-    }, 100);
-  }
+  document.getElementById("answer").value = "";
+  document.getElementById("result").innerText = "";
+
+  // stop any previous speech first
+  speechSynthesis.cancel();
+
+  let utterance = new SpeechSynthesisUtterance(currentWord.word);
+  utterance.lang = "mt-MT";
+
+  speechSynthesis.speak(utterance);
+}
 
   function checkAnswer() {
     let userAnswer = document.getElementById("answer").value;
