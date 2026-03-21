@@ -85,67 +85,73 @@
 
   </div>
 
-  <script>
-    let streak = 0;
-    let score = 0;
+<script>
+  let streak = 0;
+  let score = 0;
 
-    const words = [
-      { word: "skola", audio: "skola.mp3" },
-      { word: "għasfur", audio: "ghasfur.mp3" },
-      { word: "familja", audio: "familja.mp3" }
-    ];
+  // 🔥 load saved high score
+  let highScore = localStorage.getItem("highScore") || 0;
 
-    let currentWord = {};
+  const words = [
+    { word: "skola", audio: "skola.mp3" },
+    { word: "għasfur", audio: "ghasfur.mp3" },
+    { word: "familja", audio: "familja.mp3" }
+  ];
 
-    function newWord() {
-      let randomIndex = Math.floor(Math.random() * words.length);
-      currentWord = words[randomIndex];
+  let currentWord = {};
 
-      document.getElementById("answer").value = "";
-      document.getElementById("result").innerText = "";
+  // 👇 show high score when page loads
+  window.onload = function () {
+    document.getElementById("highScore").innerText = highScore;
+  };
 
-      let audio = document.getElementById("audio");
-      audio.src = currentWord.audio;
-      audio.load();
-      audio.play();
-    }
+  function newWord() {
+    let randomIndex = Math.floor(Math.random() * words.length);
+    currentWord = words[randomIndex];
 
-function checkAnswer() {
-  let userAnswer = document.getElementById("answer").value;
+    document.getElementById("answer").value = "";
+    document.getElementById("result").innerText = "";
 
-  if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
-    document.getElementById("result").innerText = "✅ Correct! 🎉";
-
-    score++;
-    streak++;
-
-    document.getElementById("score").innerText = score;
-    document.getElementById("streak").innerText = streak;
-
-    // 🔥 HIGH SCORE LOGIC
-    if (score > highScore) {
-      highScore = score;
-      localStorage.setItem("highScore", highScore);
-      document.getElementById("highScore").innerText = highScore;
-    }
-
-    setTimeout(() => {
-      newWord();
-      document.getElementById("answer").value = "";
-      document.getElementById("result").innerText = "";
-    }, 1000);
-
-  } else {
-    document.getElementById("result").innerText =
-      "❌ Wrong! Correct word: " + currentWord.word;
-
-    streak = 0;
-    document.getElementById("streak").innerText = streak;
+    let audio = document.getElementById("audio");
+    audio.src = currentWord.audio;
+    audio.load();
+    audio.play();
   }
-}
-}
+
+  function checkAnswer() {
+    let userAnswer = document.getElementById("answer").value;
+
+    if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
+      document.getElementById("result").innerText = "✅ Correct! 🎉";
+
+      score++;
+      streak++;
+
+      document.getElementById("score").innerText = score;
+      document.getElementById("streak").innerText = streak;
+
+      // 🏆 update high score
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+        document.getElementById("highScore").innerText = highScore;
+      }
+
+      setTimeout(() => {
+        newWord();
+        document.getElementById("answer").value = "";
+        document.getElementById("result").innerText = "";
+      }, 1000);
+
+    } else {
+      document.getElementById("result").innerText =
+        "❌ Wrong! Correct word: " + currentWord.word;
+
+      streak = 0;
+      document.getElementById("streak").innerText = streak;
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
