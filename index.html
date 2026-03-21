@@ -110,29 +110,40 @@
       audio.play();
     }
 
-    function checkAnswer() {
-      let userAnswer = document.getElementById("answer").value;
+function checkAnswer() {
+  let userAnswer = document.getElementById("answer").value;
 
-      if (userAnswer === currentWord.word) {
-        document.getElementById("result").innerText = "Correct! 🎉";
+  if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
+    document.getElementById("result").innerText = "✅ Correct! 🎉";
 
-        score++;
-        streak++;
+    score++;
+    streak++;
 
-        document.getElementById("score").innerText = score;
-        document.getElementById("streak").innerText = streak;
+    document.getElementById("score").innerText = score;
+    document.getElementById("streak").innerText = streak;
 
-        setTimeout(() => {
-          newWord();
-          document.getElementById("answer").value = "";
-          document.getElementById("result").innerText = "";
-        }, 1000);
+    // 🔥 HIGH SCORE LOGIC
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("highScore", highScore);
+      document.getElementById("highScore").innerText = highScore;
+    }
 
-      } else {
-        document.getElementById("result").innerText = "Try again!";
-        streak = 0;
-        document.getElementById("streak").innerText = streak;
-      }
+    setTimeout(() => {
+      newWord();
+      document.getElementById("answer").value = "";
+      document.getElementById("result").innerText = "";
+    }, 1000);
+
+  } else {
+    document.getElementById("result").innerText =
+      "❌ Wrong! Correct word: " + currentWord.word;
+
+    streak = 0;
+    document.getElementById("streak").innerText = streak;
+  }
+}
+}
     }
   </script>
 
