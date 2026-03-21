@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Listen & Spell</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f8;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 300px;
+      margin: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Listen & Spell 🎧</h1>
+
+    <h3>Score: <span id="score">0</span></h3>
+    <h4>Streak: <span id="streak">0</span></h4>
+
+    <button onclick="newWord()">▶️ New Word</button>
+
+    <br><br>
+
+    <input type="text" id="answer" placeholder="Type what you hear">
+
+    <br><br>
+
+    <button onclick="checkAnswer()">Submit</button>
+
+    <p id="result"></p>
+
+    <audio id="audio"></audio>
+
+  </div>
+
+  <script>
+    let streak = 0;
+    let score = 0;
+
+    const words = [
+      { word: "skola", audio: "skola.mp3" },
+      { word: "għasfur", audio: "għasfur.mp3" },
+      { word: "familja", audio: "familja.mp3" }
+    ];
+
+    let currentWord = {};
+
+    function newWord() {
+      let randomIndex = Math.floor(Math.random() * words.length);
+      currentWord = words[randomIndex];
+
+      let audio = document.getElementById("audio");
+      audio.src = currentWord.audio;
+
+      audio.load();
+      audio.play();
+    }
+
+    function checkAnswer() {
+      let userAnswer = document.getElementById("answer").value;
+
+      if (userAnswer === currentWord.word) {
+        document.getElementById("result").innerText = "Correct! 🎉";
+
+        score++;
+        streak++;
+
+        document.getElementById("score").innerText = score;
+        document.getElementById("streak").innerText = streak;
+
+        setTimeout(() => {
+          newWord();
+          document.getElementById("answer").value = "";
+          document.getElementById("result").innerText = "";
+        }, 1000);
+
+      } else {
+        document.getElementById("result").innerText = "Try again!";
+        streak = 0;
+        document.getElementById("streak").innerText = streak;
+      }
+    }
+  </script>
+
+</body>
+</html>
