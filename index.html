@@ -64,6 +64,7 @@
     <h4>Streak: <span id="streak">0</span></h4>
 
     <button onclick="newWord()">▶️ New Word</button>
+    <button onclick="speakWord()">🔊 Hear Again</button>
 
     <br><br>
 
@@ -79,54 +80,59 @@
 
   </div>
 
-  <script>
-    let streak = 0;
-    let score = 0;
+<script>
+  let streak = 0;
+  let score = 0;
 
-    const words = [
-      { word: "skola", audio: "skola.mp3" },
-      { word: "għasfur", audio: "għasfur.mp3" },
-      { word: "familja", audio: "familja.mp3" }
-    ];
+  const words = [
+    { word: "skola" },
+    { word: "għasfur" },
+    { word: "familja" }
+  ];
 
-    let currentWord = {};
+  let currentWord = {};
 
-    function newWord() {
-      let randomIndex = Math.floor(Math.random() * words.length);
-      currentWord = words[randomIndex];
+  function speakWord() {
+    let utterance = new SpeechSynthesisUtterance(currentWord.word);
+    utterance.lang = "mt-MT";
+    speechSynthesis.speak(utterance);
+  }
 
-      let audio = document.getElementById("audio");
-      audio.src = currentWord.audio;
+  function newWord() {
+    let randomIndex = Math.floor(Math.random() * words.length);
+    currentWord = words[randomIndex];
 
-      audio.load();
-      audio.play();
+    // small delay makes it more reliable
+    setTimeout(() => {
+      speakWord();
+    }, 100);
+  }
+
+  function checkAnswer() {
+    let userAnswer = document.getElementById("answer").value;
+
+    if (userAnswer === currentWord.word) {
+      document.getElementById("result").innerText = "Correct! 🎉";
+
+      score++;
+      streak++;
+
+      document.getElementById("score").innerText = score;
+      document.getElementById("streak").innerText = streak;
+
+      setTimeout(() => {
+        newWord();
+        document.getElementById("answer").value = "";
+        document.getElementById("result").innerText = "";
+      }, 1000);
+
+    } else {
+      document.getElementById("result").innerText = "Try again!";
+      streak = 0;
+      document.getElementById("streak").innerText = streak;
     }
-
-    function checkAnswer() {
-      let userAnswer = document.getElementById("answer").value;
-
-      if (userAnswer === currentWord.word) {
-        document.getElementById("result").innerText = "Correct! 🎉";
-
-        score++;
-        streak++;
-
-        document.getElementById("score").innerText = score;
-        document.getElementById("streak").innerText = streak;
-
-        setTimeout(() => {
-          newWord();
-          document.getElementById("answer").value = "";
-          document.getElementById("result").innerText = "";
-        }, 1000);
-
-      } else {
-        document.getElementById("result").innerText = "Try again!";
-        streak = 0;
-        document.getElementById("streak").innerText = streak;
-      }
-    }
-  </script>
+  }
+</script>
 
 </body>
 </html>
