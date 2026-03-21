@@ -64,7 +64,6 @@
     <h4>Streak: <span id="streak">0</span></h4>
 
     <button onclick="newWord()">▶️ New Word</button>
-    <button onclick="speakWord()">🔊 Hear Again</button>
 
     <br><br>
 
@@ -84,37 +83,27 @@
   let streak = 0;
   let score = 0;
 
-const words = [
-  { word: "skola" },
-  { word: "għasfur" },
-  { word: "familja" },
-  { word: "ktieb" },   // 👈 new word
-  { word: "dar" }      // 👈 another one
-];
+  const words = [
+    { word: "skola", audio: "skola.mp3" },
+    { word: "għasfur", audio: "ghasfur.mp3" },
+    { word: "familja", audio: "familja.mp3" }
+  ];
 
   let currentWord = {};
 
-  function speakWord() {
-    let utterance = new SpeechSynthesisUtterance(currentWord.word);
-    utterance.lang = "mt-MT";
-    speechSynthesis.speak(utterance);
+  function newWord() {
+    let randomIndex = Math.floor(Math.random() * words.length);
+    currentWord = words[randomIndex];
+
+    document.getElementById("answer").value = "";
+    document.getElementById("result").innerText = "";
+
+    let audio = document.getElementById("audio");
+
+    audio.src = currentWord.audio;
+    audio.load();
+    audio.play();
   }
-
-function newWord() {
-  let randomIndex = Math.floor(Math.random() * words.length);
-  currentWord = words[randomIndex];
-
-  document.getElementById("answer").value = "";
-  document.getElementById("result").innerText = "";
-
-  // stop any previous speech first
-  speechSynthesis.cancel();
-
-  let utterance = new SpeechSynthesisUtterance(currentWord.word);
-  utterance.lang = "mt-MT";
-
-  speechSynthesis.speak(utterance);
-}
 
   function checkAnswer() {
     let userAnswer = document.getElementById("answer").value;
