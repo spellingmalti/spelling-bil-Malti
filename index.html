@@ -3,116 +3,138 @@
 <head>
   <title>Listen & Spell</title>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a; /* dark background */
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background: #1e293b;
-  padding: 30px;
-  border-radius: 20px;
-  width: 350px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-
-h1 {
-  margin-bottom: 15px;
-}
-
-input {
-  padding: 14px;
-  width: 90%;
-  border-radius: 10px;
-  border: none;
-  margin-top: 10px;
-  font-size: 16px;
-}
-
-button {
-  padding: 12px 18px;
-  margin: 8px 5px;
-  border: 2px solid white;
-  border-radius: 10px;
-  background: red;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: white;
-  color: red;
-  transform: scale(1.05);
-}
-
-#result {
-  margin-top: 15px;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-h3, h4 {
-  margin: 5px 0;
-}
-<script>
-  let streak = 0;
-  let score = 0;
-
-  const words = [
-    { word: "skola", audio: "skola.mp3" },
-    { word: "għasfur", audio: "ghasfur.mp3" },
-    { word: "familja", audio: "familja.mp3" }
-  ];
-
-  let currentWord = {};
-
-  function newWord() {
-    let randomIndex = Math.floor(Math.random() * words.length);
-    currentWord = words[randomIndex];
-
-    document.getElementById("answer").value = "";
-    document.getElementById("result").innerText = "";
-
-    let audio = document.getElementById("audio");
-
-    audio.src = currentWord.audio;
-    audio.load();
-    audio.play();
-  }
-
-  function checkAnswer() {
-    let userAnswer = document.getElementById("answer").value;
-
-    if (userAnswer === currentWord.word) {
-      document.getElementById("result").innerText = "Correct! 🎉";
-
-      score++;
-      streak++;
-
-      document.getElementById("score").innerText = score;
-      document.getElementById("streak").innerText = streak;
-
-      setTimeout(() => {
-        newWord();
-        document.getElementById("answer").value = "";
-        document.getElementById("result").innerText = "";
-      }, 1000);
-
-    } else {
-      document.getElementById("result").innerText = "Try again!";
-      streak = 0;
-      document.getElementById("streak").innerText = streak;
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-  }
-</script>
+
+    .container {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 20px;
+      width: 350px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    input {
+      padding: 14px;
+      width: 90%;
+      border-radius: 10px;
+      border: none;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 18px;
+      margin: 8px 5px;
+      border: 2px solid white;
+      border-radius: 10px;
+      background: red;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: white;
+      color: red;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Listen & Spell 🎧</h1>
+
+    <h3>Score: <span id="score">0</span></h3>
+    <h4>Streak: <span id="streak">0</span></h4>
+
+    <button onclick="newWord()">▶️ New Word</button>
+
+    <br><br>
+
+    <input type="text" id="answer" placeholder="Type what you hear">
+
+    <br><br>
+
+    <button onclick="checkAnswer()">Submit</button>
+
+    <p id="result"></p>
+
+    <audio id="audio"></audio>
+
+  </div>
+
+  <script>
+    let streak = 0;
+    let score = 0;
+
+    const words = [
+      { word: "skola", audio: "skola.mp3" },
+      { word: "għasfur", audio: "ghasfur.mp3" },
+      { word: "familja", audio: "familja.mp3" }
+    ];
+
+    let currentWord = {};
+
+    function newWord() {
+      let randomIndex = Math.floor(Math.random() * words.length);
+      currentWord = words[randomIndex];
+
+      document.getElementById("answer").value = "";
+      document.getElementById("result").innerText = "";
+
+      let audio = document.getElementById("audio");
+      audio.src = currentWord.audio;
+      audio.load();
+      audio.play();
+    }
+
+    function checkAnswer() {
+      let userAnswer = document.getElementById("answer").value;
+
+      if (userAnswer === currentWord.word) {
+        document.getElementById("result").innerText = "Correct! 🎉";
+
+        score++;
+        streak++;
+
+        document.getElementById("score").innerText = score;
+        document.getElementById("streak").innerText = streak;
+
+        setTimeout(() => {
+          newWord();
+          document.getElementById("answer").value = "";
+          document.getElementById("result").innerText = "";
+        }, 1000);
+
+      } else {
+        document.getElementById("result").innerText = "Try again!";
+        streak = 0;
+        document.getElementById("streak").innerText = streak;
+      }
+    }
+  </script>
 
 </body>
 </html>
