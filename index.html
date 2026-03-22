@@ -7,7 +7,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f5f5; /* white-ish background */
+  background: #f5f5f5; /* light background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,41 +15,40 @@ body {
 }
 
 .container {
-  background: #ffffff;
+  background: #e11d1d; /* strong red */
   padding: 30px;
   border-radius: 20px;
   width: 350px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
   text-align: center;
-  color: black;
+  color: white; /* ALL text white */
 }
 
-    input {
-      padding: 14px;
-      width: 90%;
-      border-radius: 10px;
-      border: none;
-      margin-top: 10px;
-      font-size: 16px;
-    }
+  input {
+  padding: 14px;
+  width: 90%;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+}
 button {
   padding: 12px 18px;
   margin: 8px 5px;
-  border: 2px solid red;
+  border: none;
   border-radius: 10px;
-  background: red;
-  color: white;
+  background: white;
+  color: #e11d1d;
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
 }
 
 button:hover {
-  background: white;
-  color: red;
+  background: #f3f3f3;
   transform: scale(1.05);
 }
-
     #result {
       margin-top: 15px;
       font-weight: bold;
