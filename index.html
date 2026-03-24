@@ -21,16 +21,10 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.2);
       text-align: center;
       color: white;
-      transition: 0.3s;
     }
 
     h1 { margin-bottom: 10px; }
     h3, h4 { margin: 5px 0; }
-
-    .level {
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
 
     input {
       padding: 14px;
@@ -43,8 +37,8 @@
     }
 
     button {
-      padding: 10px 14px;
-      margin: 5px;
+      padding: 12px 18px;
+      margin: 8px 5px;
       border: none;
       border-radius: 10px;
       font-weight: bold;
@@ -56,14 +50,10 @@
       transform: scale(1.05);
     }
 
+    /* Pastel colors */
     .primary { background: #a5f3fc; color: black; }
     .secondary { background: #fde68a; color: black; }
     .alevel { background: #fbcfe8; color: black; }
-
-    .locked {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
 
     #result {
       margin-top: 15px;
@@ -77,35 +67,41 @@
 
 <div id="box" class="container">
 
-  <h1>Isma u Spelli 🎧</h1>
+  <!-- LEVEL SELECT SCREEN -->
+  <div id="menu">
+    <h1>Agħżel Livell 🎯</h1>
 
-  <div class="level">Livell: <span id="levelName">Primary</span></div>
-
-  <h3>Punti: <span id="score">0</span></h3>
-  <h4>L-Aqwa: <span id="highScore">0</span></h4>
-  <h4>Serje: <span id="streak">0</span></h4>
-
-  <div>
-    <button id="primaryBtn" onclick="setLevel('primary')">Primary</button>
-    <button id="secondaryBtn" onclick="setLevel('secondary')">Secondary 🔒</button>
-    <button id="alevelBtn" onclick="setLevel('alevel')">A-Level 🔒</button>
+    <button onclick="startGame('primary')">Primary</button>
+    <button onclick="startGame('secondary')">Secondary</button>
+    <button onclick="startGame('alevel')">A-Level</button>
   </div>
 
-  <br>
+  <!-- GAME SCREEN -->
+  <div id="game" style="display:none;">
 
-  <button onclick="newWord()">▶️ Kelma Ġdida</button>
+    <h1>Isma u Spelli 🎧</h1>
 
-  <br><br>
+    <h4>Livell: <span id="levelName"></span></h4>
 
-  <input type="text" id="answer" placeholder="Ikteb dak li tisma">
+    <h3>Punti: <span id="score">0</span></h3>
+    <h4>L-Aqwa: <span id="highScore">0</span></h4>
+    <h4>Serje: <span id="streak">0</span></h4>
 
-  <br><br>
+    <button onclick="newWord()">▶️ Kelma Ġdida</button>
 
-  <button onclick="checkAnswer()">Iċċekkja</button>
+    <br><br>
 
-  <p id="result"></p>
+    <input type="text" id="answer" placeholder="Ikteb dak li tisma">
 
-  <audio id="audio"></audio>
+    <br><br>
+
+    <button onclick="checkAnswer()">Iċċekkja</button>
+
+    <p id="result"></p>
+
+    <audio id="audio"></audio>
+
+  </div>
 
 </div>
 
@@ -114,7 +110,6 @@ let score = 0;
 let streak = 0;
 
 let highScore = localStorage.getItem("highScore") || 0;
-document.getElementById("highScore").innerText = highScore;
 
 const wordLevels = {
   primary: [
@@ -131,30 +126,23 @@ const wordLevels = {
   ]
 };
 
-let currentLevel = "primary";
+let currentLevel = "";
 let currentWord = {};
 
-let unlocked = {
-  secondary: false,
-  alevel: false
-};
-
-function updateUI() {
-  let box = document.getElementById("box");
-  box.className = "container " + currentLevel;
-
-  document.getElementById("levelName").innerText =
-    currentLevel.toUpperCase();
-}
-
-function setLevel(level) {
-  if (level !== "primary" && !unlocked[level]) {
-    alert("🔒 Dan il-livell għadu msakkar!");
-    return;
-  }
-
+function startGame(level) {
   currentLevel = level;
-  updateUI();
+
+  // switch screens
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("game").style.display = "block";
+
+  // set color
+  document.getElementById("box").className = "container " + level;
+
+  // show level
+  document.getElementById("levelName").innerText = level.toUpperCase();
+
+  document.getElementById("highScore").innerText = highScore;
 }
 
 function newWord() {
@@ -193,17 +181,6 @@ function checkAnswer() {
       document.getElementById("highScore").innerText = highScore;
     }
 
-    // 🔓 Unlock logic
-    if (score >= 3) {
-      unlocked.secondary = true;
-      document.getElementById("secondaryBtn").innerText = "Secondary";
-    }
-
-    if (score >= 6) {
-      unlocked.alevel = true;
-      document.getElementById("alevelBtn").innerText = "A-Level";
-    }
-
     setTimeout(() => newWord(), 1000);
 
   } else {
@@ -215,8 +192,6 @@ function checkAnswer() {
     document.getElementById("streak").innerText = streak;
   }
 }
-
-updateUI();
 </script>
 
 </body>
