@@ -15,21 +15,21 @@
     }
 
     .container {
-      background: #e11d1d;
       padding: 30px;
       border-radius: 20px;
-      width: 350px;
+      width: 360px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.2);
       text-align: center;
       color: white;
+      transition: 0.3s;
     }
 
-    h1 {
+    h1 { margin-bottom: 10px; }
+    h3, h4 { margin: 5px 0; }
+
+    .level {
       margin-bottom: 10px;
-    }
-
-    h3, h4 {
-      margin: 5px 0;
+      font-weight: bold;
     }
 
     input {
@@ -43,20 +43,26 @@
     }
 
     button {
-      padding: 12px 18px;
-      margin: 8px 5px;
+      padding: 10px 14px;
+      margin: 5px;
       border: none;
       border-radius: 10px;
-      background: white;
-      color: #e11d1d;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
     }
 
     button:hover {
-      background: #f3f3f3;
       transform: scale(1.05);
+    }
+
+    .primary { background: #a5f3fc; color: black; }
+    .secondary { background: #fde68a; color: black; }
+    .alevel { background: #fbcfe8; color: black; }
+
+    .locked {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     #result {
@@ -69,96 +75,148 @@
 
 <body>
 
-  <div class="container">
+<div id="box" class="container">
 
-    <h1>Isma u Spelli 🎧</h1>
+  <h1>Isma u Spelli 🎧</h1>
 
-    <h3>Punti: <span id="score">0</span></h3>
-    <h4>L-Aqwa Punti: <span id="highScore">0</span></h4>
-    <h4>Serje: <span id="streak">0</span></h4>
+  <div class="level">Livell: <span id="levelName">Primary</span></div>
 
-    <button onclick="newWord()">▶️ Kelma Ġdida</button>
+  <h3>Punti: <span id="score">0</span></h3>
+  <h4>L-Aqwa: <span id="highScore">0</span></h4>
+  <h4>Serje: <span id="streak">0</span></h4>
 
-    <br><br>
-
-    <input type="text" id="answer" placeholder="Ikteb dak li tisma">
-
-    <br><br>
-
-    <button onclick="checkAnswer()">Iċċekkja r-risposta</button>
-
-    <p id="result"></p>
-
-    <audio id="audio"></audio>
-
+  <div>
+    <button id="primaryBtn" onclick="setLevel('primary')">Primary</button>
+    <button id="secondaryBtn" onclick="setLevel('secondary')">Secondary 🔒</button>
+    <button id="alevelBtn" onclick="setLevel('alevel')">A-Level 🔒</button>
   </div>
 
+  <br>
+
+  <button onclick="newWord()">▶️ Kelma Ġdida</button>
+
+  <br><br>
+
+  <input type="text" id="answer" placeholder="Ikteb dak li tisma">
+
+  <br><br>
+
+  <button onclick="checkAnswer()">Iċċekkja</button>
+
+  <p id="result"></p>
+
+  <audio id="audio"></audio>
+
+</div>
+
 <script>
-  let streak = 0;
-  let score = 0;
+let score = 0;
+let streak = 0;
 
-  let highScore = localStorage.getItem("highScore") || 0;
+let highScore = localStorage.getItem("highScore") || 0;
+document.getElementById("highScore").innerText = highScore;
 
-  const words = [
+const wordLevels = {
+  primary: [
     { word: "skola", audio: "skola.mp3" },
+    { word: "dar", audio: "dar.mp3" }
+  ],
+  secondary: [
     { word: "għasfur", audio: "ghasfur.mp3" },
     { word: "familja", audio: "familja.mp3" }
-  ];
+  ],
+  alevel: [
+    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
+    { word: "indipendenza", audio: "indipendenza.mp3" }
+  ]
+};
 
-  let currentWord = {};
+let currentLevel = "primary";
+let currentWord = {};
 
-  window.onload = function () {
-    document.getElementById("highScore").innerText = highScore;
-  };
+let unlocked = {
+  secondary: false,
+  alevel: false
+};
 
-  function newWord() {
-    let randomIndex = Math.floor(Math.random() * words.length);
-    currentWord = words[randomIndex];
+function updateUI() {
+  let box = document.getElementById("box");
+  box.className = "container " + currentLevel;
 
-    document.getElementById("answer").value = "";
-    let result = document.getElementById("result");
-    result.innerText = "";
+  document.getElementById("levelName").innerText =
+    currentLevel.toUpperCase();
+}
+
+function setLevel(level) {
+  if (level !== "primary" && !unlocked[level]) {
+    alert("🔒 Dan il-livell għadu msakkar!");
+    return;
+  }
+
+  currentLevel = level;
+  updateUI();
+}
+
+function newWord() {
+  let words = wordLevels[currentLevel];
+  let randomIndex = Math.floor(Math.random() * words.length);
+  currentWord = words[randomIndex];
+
+  document.getElementById("answer").value = "";
+  let result = document.getElementById("result");
+  result.innerText = "";
+  result.style.color = "white";
+
+  let audio = document.getElementById("audio");
+  audio.src = currentWord.audio;
+  audio.load();
+  audio.play();
+}
+
+function checkAnswer() {
+  let userAnswer = document.getElementById("answer").value;
+  let result = document.getElementById("result");
+
+  if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
+    result.innerText = "✅ Tajjeb ħafna!";
+    result.style.color = "lightgreen";
+
+    score++;
+    streak++;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("streak").innerText = streak;
+
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("highScore", highScore);
+      document.getElementById("highScore").innerText = highScore;
+    }
+
+    // 🔓 Unlock logic
+    if (score >= 3) {
+      unlocked.secondary = true;
+      document.getElementById("secondaryBtn").innerText = "Secondary";
+    }
+
+    if (score >= 6) {
+      unlocked.alevel = true;
+      document.getElementById("alevelBtn").innerText = "A-Level";
+    }
+
+    setTimeout(() => newWord(), 1000);
+
+  } else {
+    result.innerText =
+      "❌ Mhux tajjeb. Il-kelma: " + currentWord.word;
     result.style.color = "white";
 
-    let audio = document.getElementById("audio");
-    audio.src = currentWord.audio;
-    audio.load();
-    audio.play();
+    streak = 0;
+    document.getElementById("streak").innerText = streak;
   }
+}
 
-  function checkAnswer() {
-    let userAnswer = document.getElementById("answer").value;
-    let result = document.getElementById("result");
-
-    if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
-      result.innerText = "✅ Tajjeb ħafna! 🎉";
-      result.style.color = "lightgreen";
-
-      score++;
-      streak++;
-
-      document.getElementById("score").innerText = score;
-      document.getElementById("streak").innerText = streak;
-
-      if (score > highScore) {
-        highScore = score;
-        localStorage.setItem("highScore", highScore);
-        document.getElementById("highScore").innerText = highScore;
-      }
-
-      setTimeout(() => {
-        newWord();
-      }, 1000);
-
-    } else {
-      result.innerText =
-        "❌ Mhux tajjeb. Il-kelma t-tajba hija: " + currentWord.word;
-      result.style.color = "white";
-
-      streak = 0;
-      document.getElementById("streak").innerText = streak;
-    }
-  }
+updateUI();
 </script>
 
 </body>
