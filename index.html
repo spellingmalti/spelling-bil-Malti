@@ -122,61 +122,52 @@ let score = 0;
 let streak = 0;
 
 let highScore = localStorage.getItem("highScore") || 0;
-
 const wordLevels = {
   primary: [
     { word: "skola", audio: "skola.mp3" },
-    { word: "dar", audio: "dar.mp3" }
-      { word: "għasfur", audio: "ghasfur.mp3" },
-    { word: "familja", audio: "familja.mp3" }
-   { word: "kuljum", audio: "kuljum.mp3" },
-    { word: "bżonn", audio: "bżonn.mp3" }
-   { word: "tiġieġa", audio: "tiġieġa.mp3" },
-    { word: "mexa", audio: "mexa.mp3" }
-   { word: "imxejt", audio: "imxejt.mp3" },
-    { word: "organizzazzjoni", audio: "organizzazzjoni.mp3" }
-  { word: "student", audio: "student.mp3" }
-  { word: "nikteb", audio: "nikteb.mp3" }
-  { word: "ktieb", audio: "ktieb.mp3" }
-    
+    { word: "dar", audio: "dar.mp3" },
+    { word: "għasfur", audio: "ghasfur.mp3" },
+    { word: "familja", audio: "familja.mp3" },
+    { word: "kuljum", audio: "kuljum.mp3" },
+    { word: "bżonn", audio: "bżonn.mp3" },
+    { word: "tiġieġa", audio: "tigiega.mp3" },
+    { word: "mexa", audio: "mexa.mp3" },
+    { word: "imxejt", audio: "imxejt.mp3" },
+    { word: "student", audio: "student.mp3" },
+    { word: "nikteb", audio: "nikteb.mp3" },
+    { word: "ktieb", audio: "ktieb.mp3" }
   ],
-  secondary:
-  { word: "responsabbiltà", audio: "responsabbilta.mp3" },
-   { word: "jiddeskrivu", audio: "jiddeskrivu.mp3" }
-    { word: "indipendenza", audio: "indipendenza.mp3" }
-   { word: "żbroffa", audio: "żbroffa.mp3" },
-    { word: "organizzazzjoni", audio: "organizzazzjoni.mp3" }
- { word: "żball", audio: "żball.mp3" },
-    { word: "baqa'", audio: "baqa'.mp3" }
-   { word: "negattiv", audio: "negattiv.mp3" },
-    { word: "taqta'", audio: "taqta'.mp3" }
-   { word: "snajja'", audio: "snajja'.mp3" },
-    { word: "ħeffa", audio: "ħeffa.mp3" }
-   { word: "qabelxejn", audio: "qabelxejn.mp3" },
-    { word: "jgħin", audio: "jgħin.mp3" }
-   { word: "avvanzat", audio: "avvanzat.mp3" },
-    { word: "jifhmu", audio: "jifhmu.mp3" }
-   { word: "nirrakkomandaw", audio: "nirrakkomandaw.mp3" },
-    { word: "għarfien", audio: "għarfien.mp3" }
-  ]
-};
- 
-  alevel:
-  { word: "responsabbiltà", audio: "responsabbilta.mp3" },
-    { word: "indipendenza", audio: "indipendenza.mp3" }
-   { word: "bilqiegħda", audio: "bilqiegħda.mp3" },
-    { word: "joqogħdu", audio: "joqogħdu.mp3" }
-  { word: "jingħataw", audio: "jingħataw.mp3" }
-   { word: "xbieha", audio: "xbieha.mp3" },
-    { word: "iqegħduha", audio: "iqegħduha.mp3" }
-   { word: "tingħata", audio: "tingħata.mp3" },
-    { word: "jistqarr", audio: "jistqarr.mp3" }
-   { word: "ħjiel", audio: "ħjiel.mp3" },
-    { word: "pijunier", audio: "pijunier.mp3" }
-   { word: "tgħib", audio: "tgħib.mp3" },
-    { word: "atteati", audio: "atteati.mp3" }
-   { word: "krisi", audio: "krisi.mp3" },
-    { word: "indipendenza", audio: "indipendenza.mp3" }
+
+  secondary: [
+    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
+    { word: "jiddeskrivu", audio: "jiddeskrivu.mp3" },
+    { word: "indipendenza", audio: "indipendenza.mp3" },
+    { word: "żbroffa", audio: "zbroffa.mp3" },
+    { word: "organizzazzjoni", audio: "organizzazzjoni.mp3" },
+    { word: "żball", audio: "zball.mp3" },
+    { word: "baqa'", audio: "baqa.mp3" },
+    { word: "negattiv", audio: "negattiv.mp3" },
+    { word: "taqta'", audio: "taqta.mp3" },
+    { word: "snajja'", audio: "snajja.mp3" },
+    { word: "ħeffa", audio: "heffa.mp3" },
+    { word: "qabelxejn", audio: "qabelxejn.mp3" },
+    { word: "jgħin", audio: "jghin.mp3" }
+  ],
+
+  alevel: [
+    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
+    { word: "indipendenza", audio: "indipendenza.mp3" },
+    { word: "bilqiegħda", audio: "bilqieqda.mp3" },
+    { word: "joqogħdu", audio: "joqoghdu.mp3" },
+    { word: "jingħataw", audio: "jinghataw.mp3" },
+    { word: "xbieha", audio: "xbieha.mp3" },
+    { word: "iqegħduha", audio: "iqeghduha.mp3" },
+    { word: "tingħata", audio: "tinghata.mp3" },
+    { word: "jistqarr", audio: "jistqarr.mp3" },
+    { word: "ħjiel", audio: "hjiel.mp3" },
+    { word: "pijunier", audio: "pijunier.mp3" },
+    { word: "tgħib", audio: "tghib.mp3" },
+    { word: "krisi", audio: "krisi.mp3" }
   ]
 };
 
