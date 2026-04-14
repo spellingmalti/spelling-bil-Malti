@@ -12,87 +12,81 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      font-size: 20px;
     }
-.container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-}
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* BIG WHITE GAME BOX */
+    #game, #menu, #categoryMenu {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #ffffff;
+      border-radius: 25px;
+      padding: 40px;
+      width: 500px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    }
 
     h1 {
-      margin-bottom: 10px;
-      font-weight: 600;
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 34px;
     }
 
     h3, h4 {
-      margin: 5px 0;
+      margin: 10px 0;
       color: #334155;
+      font-size: 22px;
     }
 
     input {
-      padding: 14px;
+      padding: 18px;
       width: 90%;
-      border-radius: 12px;
+      border-radius: 14px;
       border: none;
-      margin-top: 10px;
-      font-size: 16px;
+      margin-top: 15px;
+      font-size: 20px;
       text-align: center;
       background: #f1f5f9;
     }
 
-button {
-  padding: 14px 22px;
-  margin: 10px;
-  border: none;
-  border-radius: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  background: white;
-  color: #16a34a;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: #ecfdf5;
-  transform: scale(1.1);
-}
-
-    .primarja {
-      background: linear-gradient(135deg, #bae6fd, #e0f2fe);
+    button {
+      padding: 16px 26px;
+      margin: 10px;
+      border: none;
+      border-radius: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: #16a34a;
+      font-size: 18px;
+      transition: 0.2s;
     }
 
-    .secondarja {
-      background: linear-gradient(135deg, #fde68a, #fef9c3);
+    button:hover {
+      background: #ecfdf5;
+      transform: scale(1.08);
     }
-
-    .avvanzat {
-      background: linear-gradient(135deg, #fbcfe8, #fce7f3);
-    }
-
-.menu-box {
-  .menu-box h1 {
-  font-size: 32px;
-  margin-bottom: 25px;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: white;
-  padding: 60px 30px;
-  border-radius: 25px;
-  width: 420px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-  text-align: center;
-}
 
     #result {
-      margin-top: 15px;
+      margin-top: 20px;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 22px;
+    }
+
+    audio {
+      margin-top: 10px;
     }
   </style>
-
 </head>
 
 <body>
@@ -100,7 +94,7 @@ button:hover {
 <div id="box" class="container">
 
   <!-- LEVEL MENU -->
-  <div id="menu" class="menu-box">
+  <div id="menu">
     <h1>Agħżel Livell 🎯</h1>
 
     <button onclick="startGame('primarja')">Primarja</button>
@@ -109,7 +103,7 @@ button:hover {
   </div>
 
   <!-- CATEGORY MENU -->
-  <div id="categoryMenu" class="menu-box" style="display:none;">
+  <div id="categoryMenu" style="display:none;">
     <h2>Agħżel Kategorija 📚</h2>
 
     <button onclick="setCategory('animals')">Annimali</button>
@@ -124,8 +118,8 @@ button:hover {
     <h4>Livell: <span id="levelName"></span></h4>
 
     <h3>Punti: <span id="score">0</span></h3>
-    <h4>L-Aqwa: <span id="highScore">0</span></h4>
-    <h4>Serje: <span id="streak">0</span></h4>
+    <h4>L-Aqwa Highscore: <span id="highScore">0</span></h4>
+    <h4>Streak: <span id="streak">0</span></h4>
 
     <button onclick="newWord()">Kelma Ġdida</button>
 
@@ -199,8 +193,6 @@ function setCategory(category) {
 
 function startPlay() {
   document.getElementById("game").style.display = "block";
-  document.getElementById("box").className = "container " + currentLevel;
-
   document.getElementById("levelName").innerText = currentLevel.toUpperCase();
   document.getElementById("highScore").innerText = highScore;
 }
@@ -259,4 +251,5 @@ function checkAnswer() {
 </script>
 
 </body>
+</html>
 </html>
