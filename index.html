@@ -2,80 +2,94 @@
 <html>
 <head>
   <title>Isma u Spelli</title>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+/* GLASS CARD */
+.container {
+  padding: 30px;
+  border-radius: 25px;
+  width: 360px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: 0.3s;
+}
 
-    .container {
-      padding: 30px;
-      border-radius: 20px;
-      width: 360px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      text-align: center;
-      color: white;
-    }
+/* TEXT */
+h1 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
 
-    h1 { margin-bottom: 10px; }
-    h3, h4 { margin: 5px 0; }
+h3, h4 {
+  margin: 5px 0;
+  color: #334155;
+}
 
-    input {
-      padding: 14px;
-      width: 90%;
-      border-radius: 10px;
-      border: none;
-      margin-top: 10px;
-      font-size: 16px;
-      text-align: center;
-    }
+/* INPUT */
+input {
+  padding: 14px;
+  width: 90%;
+  border-radius: 12px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+  background: #f1f5f9;
+}
 
-    button {
-      padding: 12px 18px;
-      margin: 8px 5px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+/* BUTTONS */
+button {
+  padding: 12px 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #6366f1;
+  color: white;
+}
 
-    button:hover {
-      transform: scale(1.05);
-    }
+button:hover {
+  transform: scale(1.05);
+  background: #4f46e5;
+}
 
-    /* Pastel colors */
-    .primarja { background: #a5f3fc; color: black; }
-    .secondarja { background: #fde68a; color: black; }
-    .avvanzat { background: #fbcfe8; color: black; }
+/* LEVEL COLORS */
+.primarja {
+  background: linear-gradient(135deg, #bae6fd, #e0f2fe);
+}
 
-    .menu-box {
-      background: #22c55e;
-      color: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    }
+.secondarja {
+  background: linear-gradient(135deg, #fde68a, #fef9c3);
+}
 
-    .menu-box button {
-      background: white;
-      color: #22c55e;
-    }
+.avvanzat {
+  background: linear-gradient(135deg, #fbcfe8, #fce7f3);
+}
 
-    #result {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 18px;
-    }
-  </style>
-</head>
+/* MENU */
+.menu-box {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+}
 
+/* RESULT */
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 18px;
+}
 <body>
 
 <div id="box" class="container">
