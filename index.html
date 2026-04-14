@@ -2,94 +2,93 @@
 <html>
 <head>
   <title>Isma u Spelli</title>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
-/* GLASS CARD */
-.container {
-  padding: 30px;
-  border-radius: 25px;
-  width: 360px;
-  backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  text-align: center;
-  transition: 0.3s;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-/* TEXT */
-h1 {
-  margin-bottom: 10px;
-  font-weight: 600;
-}
+    .container {
+      padding: 30px;
+      border-radius: 25px;
+      width: 360px;
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: 0.3s;
+    }
 
-h3, h4 {
-  margin: 5px 0;
-  color: #334155;
-}
+    h1 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
 
-/* INPUT */
-input {
-  padding: 14px;
-  width: 90%;
-  border-radius: 12px;
-  border: none;
-  margin-top: 10px;
-  font-size: 16px;
-  text-align: center;
-  background: #f1f5f9;
-}
+    h3, h4 {
+      margin: 5px 0;
+      color: #334155;
+    }
 
-/* BUTTONS */
-button {
-  padding: 12px 16px;
-  margin: 6px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-  background: #6366f1;
-  color: white;
-}
+    input {
+      padding: 14px;
+      width: 90%;
+      border-radius: 12px;
+      border: none;
+      margin-top: 10px;
+      font-size: 16px;
+      text-align: center;
+      background: #f1f5f9;
+    }
 
-button:hover {
-  transform: scale(1.05);
-  background: #4f46e5;
-}
+    button {
+      padding: 12px 16px;
+      margin: 6px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #6366f1;
+      color: white;
+    }
 
-/* LEVEL COLORS */
-.primarja {
-  background: linear-gradient(135deg, #bae6fd, #e0f2fe);
-}
+    button:hover {
+      transform: scale(1.05);
+      background: #4f46e5;
+    }
 
-.secondarja {
-  background: linear-gradient(135deg, #fde68a, #fef9c3);
-}
+    .primarja {
+      background: linear-gradient(135deg, #bae6fd, #e0f2fe);
+    }
 
-.avvanzat {
-  background: linear-gradient(135deg, #fbcfe8, #fce7f3);
-}
+    .secondarja {
+      background: linear-gradient(135deg, #fde68a, #fef9c3);
+    }
 
-/* MENU */
-.menu-box {
-  background: linear-gradient(135deg, #4ade80, #22c55e);
-  color: white;
-}
+    .avvanzat {
+      background: linear-gradient(135deg, #fbcfe8, #fce7f3);
+    }
 
-/* RESULT */
-#result {
-  margin-top: 15px;
-  font-weight: bold;
-  font-size: 18px;
-}
+    .menu-box {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: white;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+
 <body>
 
 <div id="box" class="container">
@@ -103,7 +102,7 @@ button:hover {
     <button onclick="startGame('avvanzat')">Avvanzat</button>
   </div>
 
-  <!-- CATEGORY MENU (PRIMARY ONLY) -->
+  <!-- CATEGORY MENU -->
   <div id="categoryMenu" class="menu-box" style="display:none;">
     <h2>Agħżel Kategorija 📚</h2>
 
@@ -114,7 +113,7 @@ button:hover {
 
   <!-- GAME -->
   <div id="game" style="display:none;">
-    <h1>Isma u Spelli 🎧</h1>
+    <h1>🎧 Isma u Spelli</h1>
 
     <h4>Livell: <span id="levelName"></span></h4>
 
@@ -122,7 +121,7 @@ button:hover {
     <h4>L-Aqwa: <span id="highScore">0</span></h4>
     <h4>Serje: <span id="streak">0</span></h4>
 
-    <button onclick="newWord()">▶️ Kelma Ġdida</button>
+    <button onclick="newWord()">Kelma Ġdida</button>
 
     <br><br>
 
@@ -177,7 +176,6 @@ const wordLevels = {
 
 function startGame(level) {
   currentLevel = level;
-
   document.getElementById("menu").style.display = "none";
 
   if (level === "primarja") {
@@ -195,7 +193,6 @@ function setCategory(category) {
 
 function startPlay() {
   document.getElementById("game").style.display = "block";
-
   document.getElementById("box").className = "container " + currentLevel;
 
   document.getElementById("levelName").innerText = currentLevel.toUpperCase();
@@ -215,9 +212,7 @@ function newWord() {
   currentWord = words[randomIndex];
 
   document.getElementById("answer").value = "";
-  let result = document.getElementById("result");
-  result.innerText = "";
-  result.style.color = "white";
+  document.getElementById("result").innerText = "";
 
   let audio = document.getElementById("audio");
   audio.src = currentWord.audio;
@@ -231,7 +226,7 @@ function checkAnswer() {
 
   if (userAnswer.toLowerCase() === currentWord.word.toLowerCase()) {
     result.innerText = "✅ Tajjeb ħafna!";
-    result.style.color = "lightgreen";
+    result.style.color = "green";
 
     score++;
     streak++;
@@ -249,7 +244,7 @@ function checkAnswer() {
 
   } else {
     result.innerText = "❌ Mhux tajjeb. Il-kelma: " + currentWord.word;
-    result.style.color = "white";
+    result.style.color = "red";
 
     streak = 0;
     document.getElementById("streak").innerText = streak;
