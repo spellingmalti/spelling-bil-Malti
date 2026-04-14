@@ -53,25 +53,26 @@
     /* Pastel colors */
     .primarja { background: #a5f3fc; color: black; }
     .secondarja { background: #fde68a; color: black; }
-    .livell avvanzat { background: #fbcfe8; color: black; }
+    .avvanzat { background: #fbcfe8; color: black; }
+
+    .menu-box {
+      background: #22c55e;
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .menu-box button {
+      background: white;
+      color: #22c55e;
+    }
 
     #result {
       margin-top: 15px;
       font-weight: bold;
       font-size: 18px;
     }
-
-    .menu-box {
-  background: #22c55e; /* green */
-  color: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-}
-    .menu-box button {
-  background: white;
-  color: #22c55e;
-}
   </style>
 </head>
 
@@ -79,18 +80,26 @@
 
 <div id="box" class="container">
 
-  <!-- LEVEL SELECT SCREEN -->
-<div id="menu" class="menu-box">
+  <!-- LEVEL MENU -->
+  <div id="menu" class="menu-box">
     <h1>Agħżel Livell 🎯</h1>
 
     <button onclick="startGame('primarja')">Primarja</button>
     <button onclick="startGame('secondarja')">Secondarja</button>
-    <button onclick="startGame('livell avvanzat')">livell avvanzat</button>
+    <button onclick="startGame('avvanzat')">Avvanzat</button>
   </div>
 
-  <!-- GAME SCREEN -->
-  <div id="game" style="display:none;">
+  <!-- CATEGORY MENU (PRIMARY ONLY) -->
+  <div id="categoryMenu" class="menu-box" style="display:none;">
+    <h2>Agħżel Kategorija 📚</h2>
 
+    <button onclick="setCategory('animals')">Annimali</button>
+    <button onclick="setCategory('school')">Skola</button>
+    <button onclick="setCategory('home')">Dar</button>
+  </div>
+
+  <!-- GAME -->
+  <div id="game" style="display:none;">
     <h1>Isma u Spelli 🎧</h1>
 
     <h4>Livell: <span id="levelName"></span></h4>
@@ -112,7 +121,6 @@
     <p id="result"></p>
 
     <audio id="audio"></audio>
-
   </div>
 
 </div>
@@ -120,78 +128,75 @@
 <script>
 let score = 0;
 let streak = 0;
-
 let highScore = localStorage.getItem("highScore") || 0;
+
+let currentLevel = "";
+let currentCategory = "";
+let currentWord = {};
+
 const wordLevels = {
-  primary: [
-    { word: "skola", audio: "skola.mp3" },
-    { word: "dar", audio: "dar.mp3" },
-    { word: "għasfur", audio: "ghasfur.mp3" },
-    { word: "familja", audio: "familja.mp3" },
-    { word: "kuljum", audio: "kuljum.mp3" },
-    { word: "bżonn", audio: "bżonn.mp3" },
-    { word: "tiġieġa", audio: "tigiega.mp3" },
-    { word: "mexa", audio: "mexa.mp3" },
-    { word: "imxejt", audio: "imxejt.mp3" },
-    { word: "student", audio: "student.mp3" },
-    { word: "nikteb", audio: "nikteb.mp3" },
-    { word: "ktieb", audio: "ktieb.mp3" }
+  primarja: {
+    animals: [
+      { word: "għasfur", audio: "ghasfur.mp3" },
+      { word: "tiġieġa", audio: "tigiega.mp3" }
+    ],
+    school: [
+      { word: "skola", audio: "skola.mp3" },
+      { word: "student", audio: "student.mp3" }
+    ],
+    home: [
+      { word: "dar", audio: "dar.mp3" },
+      { word: "familja", audio: "familja.mp3" }
+    ]
+  },
+
+  secondarja: [
+    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
+    { word: "indipendenza", audio: "indipendenza.mp3" }
   ],
 
-  secondary: [
-    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
-    { word: "jiddeskrivu", audio: "jiddeskrivu.mp3" },
-    { word: "indipendenza", audio: "indipendenza.mp3" },
-    { word: "żbroffa", audio: "zbroffa.mp3" },
-    { word: "organizzazzjoni", audio: "organizzazzjoni.mp3" },
-    { word: "żball", audio: "zball.mp3" },
-    { word: "baqa'", audio: "baqa.mp3" },
-    { word: "negattiv", audio: "negattiv.mp3" },
-    { word: "taqta'", audio: "taqta.mp3" },
-    { word: "snajja'", audio: "snajja.mp3" },
-    { word: "ħeffa", audio: "heffa.mp3" },
-    { word: "qabelxejn", audio: "qabelxejn.mp3" },
-    { word: "jgħin", audio: "jghin.mp3" }
-  ],
-
-  alevel: [
-    { word: "responsabbiltà", audio: "responsabbilta.mp3" },
-    { word: "indipendenza", audio: "indipendenza.mp3" },
-    { word: "bilqiegħda", audio: "bilqieqda.mp3" },
-    { word: "joqogħdu", audio: "joqoghdu.mp3" },
-    { word: "jingħataw", audio: "jinghataw.mp3" },
-    { word: "xbieha", audio: "xbieha.mp3" },
-    { word: "iqegħduha", audio: "iqeghduha.mp3" },
-    { word: "tingħata", audio: "tinghata.mp3" },
-    { word: "jistqarr", audio: "jistqarr.mp3" },
-    { word: "ħjiel", audio: "hjiel.mp3" },
+  avvanzat: [
     { word: "pijunier", audio: "pijunier.mp3" },
-    { word: "tgħib", audio: "tghib.mp3" },
     { word: "krisi", audio: "krisi.mp3" }
   ]
 };
 
-let currentLevel = "";
-let currentWord = {};
-
 function startGame(level) {
   currentLevel = level;
 
-  // switch screens
   document.getElementById("menu").style.display = "none";
+
+  if (level === "primarja") {
+    document.getElementById("categoryMenu").style.display = "block";
+  } else {
+    startPlay();
+  }
+}
+
+function setCategory(category) {
+  currentCategory = category;
+  document.getElementById("categoryMenu").style.display = "none";
+  startPlay();
+}
+
+function startPlay() {
   document.getElementById("game").style.display = "block";
 
-  // set color
-  document.getElementById("box").className = "container " + level;
+  document.getElementById("box").className = "container " + currentLevel;
 
-  // show level
-  document.getElementById("levelName").innerText = level.toUpperCase();
-
+  document.getElementById("levelName").innerText = currentLevel.toUpperCase();
   document.getElementById("highScore").innerText = highScore;
 }
 
 function newWord() {
-  let words = wordLevels[currentLevel];
+  let words;
+
+  if (currentLevel === "primarja") {
+    words = wordLevels.primarja[currentCategory];
+  } else {
+    words = wordLevels[currentLevel];
+  }
+
   let randomIndex = Math.floor(Math.random() * words.length);
   currentWord = words[randomIndex];
 
@@ -229,8 +234,7 @@ function checkAnswer() {
     setTimeout(() => newWord(), 1000);
 
   } else {
-    result.innerText =
-      "❌ Mhux tajjeb. Il-kelma: " + currentWord.word;
+    result.innerText = "❌ Mhux tajjeb. Il-kelma: " + currentWord.word;
     result.style.color = "white";
 
     streak = 0;
